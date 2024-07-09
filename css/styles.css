@@ -3,6 +3,7 @@
 }
 
 .grid-square {
-  border: 1px;
-  border-color: red;
+  height: 100px;
+  width: 100px;
+  border: solid 1px red;
 }
