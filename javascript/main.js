@@ -9,10 +9,13 @@ for (let i = 1; i <= gridLength; i++) {
   newRowDiv.classList.add("row");
   container.appendChild(newRowDiv);
   for (let j = 1; j <= gridLength; j++) {
-  const newColDiv = document.createElement("div");
+  const newSquareDiv = document.createElement("div");
   let squareId = "square" + i + "-" + j;
-  newColDiv.setAttribute("id", squareId);
-  newColDiv.classList.add("grid-square");
-  newRowDiv.appendChild(newColDiv);
+  newSquareDiv.setAttribute("id", squareId);
+  newSquareDiv.classList.add("grid-square");
+  newRowDiv.appendChild(newSquareDiv);
+  newSquareDiv.addEventListener("mouseover", (event) => {
+    newSquareDiv.classList.add("grid-square-colored");
+  });
   }
 }
