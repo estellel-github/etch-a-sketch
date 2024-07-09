@@ -6,6 +6,7 @@ for (let i = 1; i <= gridLength; i++) {
   const newRowDiv = document.createElement("div");
   let rowId = "row" + i;
   newRowDiv.setAttribute("id", rowId);
+  newRowDiv.classList.add("row");
   container.appendChild(newRowDiv);
   for (let j = 1; j <= gridLength; j++) {
   const newColDiv = document.createElement("div");
