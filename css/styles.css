@@ -1,9 +1,13 @@
+body {
+  box-sizing: border-box;
+}
 #container {
   display: flex;
+  flex-wrap: nowrap;
 }
 
 .grid-square {
-  height: 100px;
-  width: 100px;
-  border: solid 1px red;
+  min-height: 50px;
+  min-width: 50px;
+  border: solid 1px #c7c7c7;
 }
