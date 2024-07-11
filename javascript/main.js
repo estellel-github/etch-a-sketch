@@ -1,4 +1,4 @@
-const containerEl = document.querySelector("#container");
+const containerEl = document.querySelector("#grid-container");
 
 const colorOnHover = () => {
   const colorOptionEl = document.querySelector("#color-input");
