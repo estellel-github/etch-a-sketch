@@ -34,8 +34,14 @@ const applyUserInput = () => {
   const lengthInputEl = document.querySelector("#length-input");
   inputFormEl.addEventListener("submit", (event) => {
     event.preventDefault();
+    numInput = Number(lengthInputEl.value);
+    if (numInput < 2 || numInput > 100 || typeof numInput !== "number") {
+      alert("Please input a valid number from 2 to 100.");
+    }
+    else {
     const length = Number(lengthInputEl.value) || 16;
     updateGrid(length);
+    }
     lengthInputEl.value = "";
   });
 };
