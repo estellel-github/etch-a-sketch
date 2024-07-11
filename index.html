@@ -8,9 +8,15 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="user-input">
-    <form id="input-form">
-      <input id="length-input" type="number" placeholder="Input length of grid">
+  <div id="user-input-container">
+    <form id="user-input">
+      <label for="color-input">Coloring type</label>
+      <select id="color-input" type="text" placeholder="Choose coloring...">
+        <option value="unique">Unique</option>
+        <option value="random">Random</option>
+      </select>
+      <label for="length-input">Grid length</label>
+      <input id="length-input" type="number" placeholder="Input length">
       <button id="update-grid-button" type="submit">Update grid</button>
     </form>
   </div>
