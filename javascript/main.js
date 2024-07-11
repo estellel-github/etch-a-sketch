@@ -14,21 +14,27 @@ const updateGrid = (length) => {
       newSquareDiv.setAttribute("id", squareId);
       newSquareDiv.classList.add("grid-square");
       newRowDiv.appendChild(newSquareDiv);
-      newSquareDiv.addEventListener("mouseover", (event) => {
-        newSquareDiv.classList.add("grid-square-colored");
-      });
     }
   }
+  colorOnHover();
 };
 
-updateGrid(16, 16);
+const colorOnHover = () => {
+  document.querySelectorAll(".grid-square").forEach((item) => {
+    item.addEventListener("mouseover", (event) => {
+      item.classList.add("grid-square-colored");
+    });
+  });
+};
+
+updateGrid(16);
 
 const applyUserInput = () => {
   const inputFormEl = document.querySelector("#input-form");
   const lengthInputEl = document.querySelector("#length-input");
   inputFormEl.addEventListener("submit", (event) => {
     event.preventDefault();
-    const length = lengthInputEl.value || 16;
+    const length = Number(lengthInputEl.value) || 16;
     updateGrid(length);
     lengthInputEl.value = "";
   });
