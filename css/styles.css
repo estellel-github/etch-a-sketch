@@ -33,3 +33,43 @@ body {
 .grid-square-colored {
   background-color: #575757;
 }
+
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+button.active {
+  background-color: #ff00ff;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #dddddd;
+}
+
+button:disabled {
+  color: #eeeeee;
+  background-color: #ff00ff;
+  font-weight: bold;
+  cursor: not-allowed;
+  opacity: 60%;
+}
+
+button:disabled:hover {
+  background-color: initial;
+  transform: none;
+  background-color: #ff00ff;
+}
+
+button.unique:disabled {
+  background-color: #575757;
+}
+
+button.eraser:disabled {
+  background-color: #00b7ff;
+  color: #ffffff;
+}

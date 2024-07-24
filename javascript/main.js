@@ -1,6 +1,6 @@
 const DEFAULT_SIZE = 16;
 const NEUTRAL_COLOR = "#FFFFFF";
-const DEFAULT_COLOR = "#575757"
+const DEFAULT_COLOR = "#575757";
 const DEFAULT_MODE = "unique";
 
 let size = DEFAULT_SIZE;
@@ -23,7 +23,8 @@ function setSize(updatedSize) {
 
 function setMode(updatedMode) {
   mode = updatedMode;
-  colorOnHover();
+  resetOpacity();
+  applyColoring();
 }
 
 uniqueButtonEl.addEventListener("click", () => setMode("unique"));
@@ -39,8 +40,9 @@ sizeSliderEl.addEventListener("change", (el) => {
 });
 
 clearButtonEl.addEventListener("click", () => {
+  setMode("unique");
   loadGrid();
-})
+});
 
 function changeSize(value) {
   setSize(value);
@@ -62,53 +64,10 @@ function loadGrid() {
       newSquareDiv.setAttribute("id", squareId);
       newSquareDiv.classList.add("grid-square");
       newRowDiv.appendChild(newSquareDiv);
+      newSquareDiv.style.opacity = 1;
     }
   }
-  colorOnHover();
-}
-
-loadGrid();
-
-function colorOnHover() {
-  if (mode === "unique") {
-    document.querySelectorAll(".grid-square").forEach((item) => {
-      item.addEventListener("mouseover", () => {
-        item.style.backgroundColor = DEFAULT_COLOR;
-      });
-    });
-  }
-  else if (mode === "rainbow") {
-  const numColors = document.querySelectorAll(".grid-square").length;
-  const colors = generateRandomColors(numColors);
-  document.querySelectorAll(".grid-square").forEach((item, index) => {
-    item.addEventListener("mouseover", () => {
-      const [r, g, b] = colors[index];
-      const color = rgbToHex(r, g, b);
-      item.style.backgroundColor = color;
-    });
-  });
-  }
-  else if (mode === "gradual") {
-    document.querySelectorAll(".grid-square").forEach((item) => {
-      item.addEventListener("mouseover", () => {
-        item.style.backgroundColor = DEFAULT_COLOR;
-        let currentOpacity = parseFloat(item.style.opacity) || 0;
-        currentOpacity += 0.1;
-        if (currentOpacity > 1) {
-          currentOpacity = 1;
-        }
-        item.style.opacity = currentOpacity;
-        });
-      });
-    }
-
-  else if (mode === "eraser") {
-    document.querySelectorAll(".grid-square").forEach((item) => {
-      item.addEventListener("mouseover", () => {
-        item.style.backgroundColor = NEUTRAL_COLOR;
-      });
-    });
-  }
+  applyColoring();
 }
 
 // https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
@@ -161,4 +120,67 @@ const generateRandomColors = (numColors) => {
 
 function rgbToHex(r, g, b) {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
+
+loadGrid();
+
+function applyColoring() {
+  const numColors = document.querySelectorAll(".grid-square").length;
+  const colors = generateRandomColors(numColors);
+  if (mode === "unique") {
+    resetOpacity();
+    document.querySelector("#eraser-button").disabled = false;
+    document.querySelector("#rainbow-button").disabled = false;
+    document.querySelector("#unique-button").disabled = true;
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        item.style.backgroundColor = DEFAULT_COLOR;
+      });
+    });
+  } else if (mode === "rainbow") {
+    resetOpacity();
+    document.querySelector("#eraser-button").disabled = false;
+    document.querySelector("#unique-button").disabled = false;
+    document.querySelector("#rainbow-button").disabled = true;
+    document.querySelectorAll(".grid-square").forEach((item, index) => {
+      item.addEventListener("mouseover", () => {
+        const [r, g, b] = colors[index];
+        const color = rgbToHex(r, g, b);
+        item.style.backgroundColor = color;
+      });
+    });
+  } else if (mode === "gradual") {
+    document.querySelector("#eraser-button").disabled = false;
+    document.querySelector("#unique-button").disabled = false;
+    document.querySelector("#rainbow-button").disabled = false;
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        let currentOpacity = parseFloat(item.style.opacity) || 0;
+        currentOpacity += 0.1;
+        if (currentOpacity > 1) {
+          currentOpacity = 1;
+        }
+        item.style.opacity = currentOpacity;
+        console.log(item.style.opacity);
+      });
+    });
+  } else if (mode === "eraser") {
+    document.querySelector("#eraser-button").disabled = true;
+    document.querySelector("#rainbow-button").disabled = false;
+    document.querySelector("#unique-button").disabled = false;
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        item.style.backgroundColor = NEUTRAL_COLOR;
+        resetOpacity();
+      });
+    });
+  }
+}
+
+function resetOpacity() {
+  document.querySelectorAll(".grid-square").forEach((item) => {
+    item.addEventListener("mouseover", () => {
+      item.style.opacity = 1;
+    });
+  });
 }
