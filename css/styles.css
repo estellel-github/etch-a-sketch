@@ -9,7 +9,7 @@ body {
   margin: 32px;
 }
 
-#container {
+#grid {
   flex: 1;
   display: flex;
   flex-wrap: nowrap;
@@ -17,7 +17,7 @@ body {
   height: 85vmin;
   max-height: 85vh;
   width: 85vmin;
-  max-width: 85vw;
+  max-width: 500px;
 }
 
 .row {
@@ -25,10 +25,11 @@ body {
 }
 
 .grid-square {
+  flex: 1;
   padding-top: 100%;
   border: solid 1px #c7c7c7;
 }
 
 .grid-square-colored {
-  background-color: #ff2b87;
+  background-color: #575757;
 }

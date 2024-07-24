@@ -1,33 +1,62 @@
-const containerEl = document.querySelector("#grid-container");
+const DEFAULT_SIZE = 16;
+const NEUTRAL_COLOR = "#FFFFFF";
+const DEFAULT_COLOR = "#575757"
+const DEFAULT_MODE = "unique";
 
-const colorOnHover = () => {
-  const colorOptionEl = document.querySelector("#color-input");
-  if (colorOptionEl.value === "unique" || colorOptionEl.value === "undefined" ) {
-    return uniqueColorOnHover();
-  }
-  else if (colorOptionEl.value === "random") {
-    return randomColorOnHover();
-  }
+let size = DEFAULT_SIZE;
+let color = DEFAULT_COLOR;
+let mode = DEFAULT_MODE;
+
+const containerEl = document.querySelector("#grid");
+
+const uniqueButtonEl = document.querySelector("#unique-button");
+const rainbowButtonEl = document.querySelector("#rainbow-button");
+const eraserButtonEl = document.querySelector("#eraser-button");
+const sizeSliderEl = document.querySelector("#size-slider");
+const sizeValueEl = document.querySelector("#size-value");
+const clearButtonEl = document.querySelector("#clear-button");
+const gradualButtonEl = document.querySelector("#gradual-button");
+
+function setSize(updatedSize) {
+  size = updatedSize;
 }
 
-const uniqueColorOnHover = () => {
-  document.querySelectorAll(".grid-square").forEach((item) => {
-    item.addEventListener("mouseover", (event) => {
-      item.classList.add("grid-square-colored");
-    });
-  });
-};
+function setMode(updatedMode) {
+  mode = updatedMode;
+  colorOnHover();
+}
 
+uniqueButtonEl.addEventListener("click", () => setMode("unique"));
 
-const updateGrid = (length) => {
+rainbowButtonEl.addEventListener("click", () => setMode("rainbow"));
+
+eraserButtonEl.addEventListener("click", () => setMode("eraser"));
+
+gradualButtonEl.addEventListener("click", () => setMode("gradual"));
+
+sizeSliderEl.addEventListener("change", (el) => {
+  changeSize(el.target.value);
+});
+
+clearButtonEl.addEventListener("click", () => {
+  loadGrid();
+})
+
+function changeSize(value) {
+  setSize(value);
+  sizeValueEl.textContent = `${value} x ${value}`;
+  loadGrid();
+}
+
+function loadGrid() {
   containerEl.innerHTML = "";
-  for (let i = 1; i <= length; i++) {
+  for (let i = 1; i <= size; i++) {
     const newRowDiv = document.createElement("div");
     let rowId = "row" + i;
     newRowDiv.setAttribute("id", rowId);
     newRowDiv.classList.add("row");
     containerEl.appendChild(newRowDiv);
-    for (let j = 1; j <= length; j++) {
+    for (let j = 1; j <= size; j++) {
       const newSquareDiv = document.createElement("div");
       let squareId = "square" + i + "-" + j;
       newSquareDiv.setAttribute("id", squareId);
@@ -36,9 +65,51 @@ const updateGrid = (length) => {
     }
   }
   colorOnHover();
-};
+}
 
-updateGrid(16);
+loadGrid();
+
+function colorOnHover() {
+  if (mode === "unique") {
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        item.style.backgroundColor = DEFAULT_COLOR;
+      });
+    });
+  }
+  else if (mode === "rainbow") {
+  const numColors = document.querySelectorAll(".grid-square").length;
+  const colors = generateRandomColors(numColors);
+  document.querySelectorAll(".grid-square").forEach((item, index) => {
+    item.addEventListener("mouseover", () => {
+      const [r, g, b] = colors[index];
+      const color = rgbToHex(r, g, b);
+      item.style.backgroundColor = color;
+    });
+  });
+  }
+  else if (mode === "gradual") {
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        item.style.backgroundColor = DEFAULT_COLOR;
+        let currentOpacity = parseFloat(item.style.opacity) || 0;
+        currentOpacity += 0.1;
+        if (currentOpacity > 1) {
+          currentOpacity = 1;
+        }
+        item.style.opacity = currentOpacity;
+        });
+      });
+    }
+
+  else if (mode === "eraser") {
+    document.querySelectorAll(".grid-square").forEach((item) => {
+      item.addEventListener("mouseover", () => {
+        item.style.backgroundColor = NEUTRAL_COLOR;
+      });
+    });
+  }
+}
 
 // https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
 
@@ -51,12 +122,24 @@ function hsvToRgb(h, s, v) {
   let t = v * (1 - (1 - f) * s);
 
   switch (i % 6) {
-      case 0: r = v, g = t, b = p; break;
-      case 1: r = q, g = v, b = p; break;
-      case 2: r = p, g = v, b = t; break;
-      case 3: r = p, g = q, b = v; break;
-      case 4: r = t, g = p, b = v; break;
-      case 5: r = v, g = p, b = q; break;
+    case 0:
+      (r = v), (g = t), (b = p);
+      break;
+    case 1:
+      (r = q), (g = v), (b = p);
+      break;
+    case 2:
+      (r = p), (g = v), (b = t);
+      break;
+    case 3:
+      (r = p), (g = q), (b = v);
+      break;
+    case 4:
+      (r = t), (g = p), (b = v);
+      break;
+    case 5:
+      (r = v), (g = p), (b = q);
+      break;
   }
 
   return [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
@@ -74,27 +157,8 @@ const generateRandomColors = (numColors) => {
   }
   console.log(colors);
   return colors;
-}
+};
 
 function rgbToHex(r, g, b) {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
-
-const applyUserInput = () => {
-  const inputFormEl = document.querySelector("#user-input");
-  const lengthInputEl = document.querySelector("#length-input");
-  inputFormEl.addEventListener("submit", (event) => {
-    event.preventDefault();
-    numInput = Number(lengthInputEl.value);
-    if (numInput < 2 || numInput > 100 || typeof numInput !== "number") {
-      alert("Please input a valid number from 2 to 100.");
-    }
-    else {
-    const length = numInput || 16;
-    updateGrid(length);
-  }
-  lengthInputEl.value = "";
-  });
-};
-
-applyUserInput();

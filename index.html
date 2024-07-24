@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,20 @@
   <script defer src="javascript/main.js"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <div id="user-input-container">
-    <form id="user-input">
-      <label for="color-input">Coloring type</label>
-      <select id="color-input" type="text" placeholder="Choose coloring...">
-        <option value="unique">Unique</option>
-        <option value="random">Random</option>
-      </select>
-      <label for="length-input">Grid length</label>
-      <input id="length-input" type="number" placeholder="Input length">
-      <button id="update-grid-button" type="submit">Update grid</button>
-    </form>
+    <button id="unique-button">Unique</button>
+    <button id="rainbow-button">Rainbow</button>
+    <button id="eraser-button">Eraser</button>
+    <button id="gradual-button">Gradual</button>
+    <button id="clear-button">Clear</button>
+    <div>
+      <input type="range" id="size-slider" name="size-slider" min="2" max="100" value="16" />
+      <div id="size-value">16 x 16</div>
+    </div>
   </div>
-  <div id="grid-container"></div>
+  <div id="grid"></div>
 </body>
+
 </html>
