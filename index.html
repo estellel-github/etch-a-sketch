@@ -10,21 +10,39 @@
 </head>
 
 <body>
-  <div id="user-input-container">
-    
+  <div id="title">
+    <h1>Etch-A-Sketch</h1>
+  </div>
+  <div id="mode-input-container">
+
     <button id="unique-button" class="button unique">🐁 Grayscale</button>
     <button id="rainbow-button" class="button rainbow">🦄 Rainbow</button>
-    
+
     <button id="eraser-button" class="button eraser">🧽 Eraser</button>
-    
+
     <button id="clear-button" class="button clear">Clear</button>
-    <div>
-      <input type="range" id="size-slider" name="size-slider" min="2" max="42" value="16" />
-      <div id="size-value">16 x 16</div>
+  </div>
+
+  <div id="size-input-container">
+    <div>Size:</div>
+    <input type="range" id="size-slider" name="size-slider" min="2" max="42" value="16" />
+    <div id="size-value">16 x 16</div>
+  </div>
+
+  <div id="grid"></div>
+
+  <div id="footer" class="footer">
+    <div id="copyright-text" class="copyright-text">
+      Copyright © 2024
+    </div>
+    <div id="estellel-text" class="estellel-text">
+      Estelle L.
+    </div>
+    <div id="github-icon" class="github-icon">
+      <a href="https://github.com/estellel-github" target="_blank" rel="noopener noreferrer"><img
+          src="images/github.svg" width="25px" alt="GitHub"></a>
     </div>
   </div>
-  <div id="congratulations-message" style="display: none;">Congratulations! You found the unicorn!</div>
-  <div id="grid"></div>
 </body>
 
 </html>
