@@ -7,67 +7,8 @@ let size = DEFAULT_SIZE;
 let color = DEFAULT_COLOR;
 let mode = DEFAULT_MODE;
 
-const containerEl = document.querySelector("#grid");
-
-const uniqueButtonEl = document.querySelector("#unique-button");
-const rainbowButtonEl = document.querySelector("#rainbow-button");
-const eraserButtonEl = document.querySelector("#eraser-button");
-const sizeSliderEl = document.querySelector("#size-slider");
-const sizeValueEl = document.querySelector("#size-value");
-const clearButtonEl = document.querySelector("#clear-button");
-const gradualButtonEl = document.querySelector("#gradual-button");
-
-function setSize(updatedSize) {
-  size = updatedSize;
-}
-
-function setMode(updatedMode) {
-  mode = updatedMode;
-  applyColoring();
-}
-
-uniqueButtonEl.addEventListener("click", () => setMode("unique"));
-
-rainbowButtonEl.addEventListener("click", () => setMode("rainbow"));
-
-eraserButtonEl.addEventListener("click", () => setMode("eraser"));
-
-sizeSliderEl.addEventListener("change", (el) => {
-  changeSize(el.target.value);
-});
-
-clearButtonEl.addEventListener("click", () => {
-  setMode("unique");
-  loadGrid();
-});
-
-function changeSize(value) {
-  setSize(value);
-  sizeValueEl.textContent = `${value} x ${value}`;
-  loadGrid();
-}
-
-function loadGrid() {
-  containerEl.innerHTML = "";
-  resetOpacity();
-  for (let i = 1; i <= size; i++) {
-    const newColumnDiv = document.createElement("div");
-    let columnId = "column" + i;
-    newColumnDiv.setAttribute("id", columnId);
-    newColumnDiv.classList.add("column");
-    containerEl.appendChild(newColumnDiv);
-    for (let j = 1; j <= size; j++) {
-      const newSquareDiv = document.createElement("div");
-      let squareId = "square" + i + "-" + j;
-      newSquareDiv.setAttribute("id", squareId);
-      newSquareDiv.classList.add("grid-square");
-      newColumnDiv.appendChild(newSquareDiv);
-    }
-  }
-  applyColoring();
-}
-
 // https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+
 
 function hsvToRgb(h, s, v) {
   let r, g, b;
@@ -119,12 +60,81 @@ function rgbToHex(r, g, b) {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
+const containerEl = document.querySelector("#grid");
+
+const uniqueButtonEl = document.querySelector("#unique-button");
+const rainbowButtonEl = document.querySelector("#rainbow-button");
+const eraserButtonEl = document.querySelector("#eraser-button");
+const sizeSliderEl = document.querySelector("#size-slider");
+const sizeValueEl = document.querySelector("#size-value");
+const clearButtonEl = document.querySelector("#clear-button");
+const gradualButtonEl = document.querySelector("#gradual-button");
+
+showActiveButton("unique");
+
+function setSize(updatedSize) {
+  size = updatedSize;
+}
+
+function setMode(updatedMode) {
+  mode = updatedMode;
+  applyColoring();
+}
+
+function resetOpacity() {
+  document.querySelectorAll(".grid-square").forEach((item) => {
+    item.style.opacity = null;
+  });
+}
+
+uniqueButtonEl.addEventListener("click", () => setMode("unique"));
+
+rainbowButtonEl.addEventListener("click", () => setMode("rainbow"));
+
+eraserButtonEl.addEventListener("click", () => setMode("eraser"));
+
+sizeSliderEl.addEventListener("change", (el) => {
+  changeSize(el.target.value);
+});
+
+clearButtonEl.addEventListener("click", () => {
+  setMode("unique");
+  loadGrid();
+});
+
+function changeSize(value) {
+  setSize(value);
+  sizeValueEl.textContent = `${value} x ${value}`;
+  loadGrid();
+}
+
+function loadGrid() {
+  containerEl.innerHTML = "";
+  resetOpacity();
+  for (let i = 1; i <= size; i++) {
+    const newColumnDiv = document.createElement("div");
+    let columnId = "column" + i;
+    newColumnDiv.setAttribute("id", columnId);
+    newColumnDiv.classList.add("column");
+    containerEl.appendChild(newColumnDiv);
+    for (let j = 1; j <= size; j++) {
+      const newSquareDiv = document.createElement("div");
+      let squareId = "square" + i + "-" + j;
+      newSquareDiv.setAttribute("id", squareId);
+      newSquareDiv.classList.add("grid-square");
+      newColumnDiv.appendChild(newSquareDiv);
+    }
+  }
+  applyColoring();
+}
+
 loadGrid();
 
-const numColors = document.querySelectorAll(".grid-square").length;
-const colors = generateRandomColors(numColors);
 
 function applyColoring() {
+  showActiveButton(mode);
+  const numColors = document.querySelectorAll(".grid-square").length;
+  const colors = generateRandomColors(numColors);
   document.querySelectorAll(".grid-square").forEach((item, index) => {
     item.addEventListener("mouseover", () => {
       if (mode === "unique") {
@@ -145,8 +155,30 @@ function applyColoring() {
   });
 }
 
-function resetOpacity() {
-  document.querySelectorAll(".grid-square").forEach((item) => {
-    item.style.opacity = null;
-  });
+function showActiveButton(mode) {
+  if (mode === "rainbow") {
+    rainbowButtonEl.classList.remove("rainbow-button-inactive");
+    rainbowButtonEl.classList.add("rainbow-button-active");
+    uniqueButtonEl.classList.remove("unique-button-active");
+    eraserButtonEl.classList.remove("eraser-button-active");
+    rainbowButtonEl.disabled = true;
+    uniqueButtonEl.disabled = false;
+    eraserButtonEl.disabled = false;
+  } else if (mode === "unique") {
+    uniqueButtonEl.classList.remove("unique-button-inactive");
+    uniqueButtonEl.classList.add("unique-button-active");
+    rainbowButtonEl.classList.remove("rainbow-button-active");
+    eraserButtonEl.classList.remove("eraser-button-active");
+    rainbowButtonEl.disabled = false;
+    uniqueButtonEl.disabled = true;
+    eraserButtonEl.disabled = false;
+  } else if (mode === "eraser") {
+    eraserButtonEl.classList.remove("eraser-button-inactive");
+    eraserButtonEl.classList.add("eraser-button-active");
+    rainbowButtonEl.classList.remove("rainbow-button-active");
+    uniqueButtonEl.classList.remove("unique-button-active");
+    rainbowButtonEl.disabled = false;
+    uniqueButtonEl.disabled = false;
+    eraserButtonEl.disabled = true;
+}
 }
