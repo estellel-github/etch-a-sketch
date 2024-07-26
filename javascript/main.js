@@ -145,7 +145,7 @@ function applyColoring() {
     item.addEventListener("mouseup", () => {
       isMouseDown = false;
     });
-    item.addEventListener("mousemove", () => {
+    item.addEventListener("mouseenter", () => {
       if (isMouseDown) {
         colorSquare(item, index, colors);
       }
