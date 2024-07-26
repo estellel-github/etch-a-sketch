@@ -1,15 +1,13 @@
 const DEFAULT_SIZE = 16;
 const NEUTRAL_COLOR = "#FFFFFF";
 const DEFAULT_COLOR = "#575757";
-const DEFAULT_MODE = "unique";
+const DEFAULT_MODE = "grayscale";
 
 let size = DEFAULT_SIZE;
 let color = DEFAULT_COLOR;
 let mode = DEFAULT_MODE;
 
 let isMouseDown = false;
-
-// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
 
 function hsvToRgb(h, s, v) {
   let r, g, b;
@@ -63,15 +61,14 @@ function rgbToHex(r, g, b) {
 
 const containerEl = document.querySelector("#grid");
 
-const uniqueButtonEl = document.querySelector("#unique-button");
+const grayscaleButtonEl = document.querySelector("#grayscale-button");
 const rainbowButtonEl = document.querySelector("#rainbow-button");
 const eraserButtonEl = document.querySelector("#eraser-button");
 const sizeSliderEl = document.querySelector("#size-slider");
 const sizeValueEl = document.querySelector("#size-value");
 const clearButtonEl = document.querySelector("#clear-button");
-const gradualButtonEl = document.querySelector("#gradual-button");
 
-showActiveButton("unique");
+showActiveButton("grayscale");
 
 function setSize(updatedSize) {
   size = updatedSize;
@@ -92,7 +89,7 @@ function resetOpacity(item) {
   item.style.opacity = null;
 }
 
-uniqueButtonEl.addEventListener("click", () => setMode("unique"));
+grayscaleButtonEl.addEventListener("click", () => setMode("grayscale"));
 
 rainbowButtonEl.addEventListener("click", () => setMode("rainbow"));
 
@@ -103,7 +100,7 @@ sizeSliderEl.addEventListener("change", (e) => {
 });
 
 clearButtonEl.addEventListener("click", () => {
-  setMode("unique");
+  setMode("grayscale");
   loadGrid();
 });
 
@@ -115,18 +112,16 @@ function changeSize(value) {
 
 function loadGrid() {
   containerEl.innerHTML = "";
+  containerEl.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  containerEl.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
   for (let i = 1; i <= size; i++) {
-    const newColumnDiv = document.createElement("div");
-    let columnId = "column" + i;
-    newColumnDiv.setAttribute("id", columnId);
-    newColumnDiv.classList.add("column");
-    containerEl.appendChild(newColumnDiv);
     for (let j = 1; j <= size; j++) {
       const newSquareDiv = document.createElement("div");
       let squareId = "square" + i + "-" + j;
       newSquareDiv.setAttribute("id", squareId);
       newSquareDiv.classList.add("grid-square");
-      newColumnDiv.appendChild(newSquareDiv);
+      containerEl.appendChild(newSquareDiv);
     }
   }
   applyColoring();
@@ -163,7 +158,7 @@ function applyColoring() {
 }
 
 function colorSquare(item, index, colors) {
-  if (mode === "unique") {
+  if (mode === "grayscale") {
     item.style.backgroundColor = DEFAULT_COLOR;
     applyOpacity(item);
   }
@@ -194,26 +189,26 @@ function showActiveButton(mode) {
   if (mode === "rainbow") {
     rainbowButtonEl.classList.remove("rainbow-button-inactive");
     rainbowButtonEl.classList.add("rainbow-button-active");
-    uniqueButtonEl.classList.remove("unique-button-active");
+    grayscaleButtonEl.classList.remove("grayscale-button-active");
     eraserButtonEl.classList.remove("eraser-button-active");
     rainbowButtonEl.disabled = true;
-    uniqueButtonEl.disabled = false;
+    grayscaleButtonEl.disabled = false;
     eraserButtonEl.disabled = false;
-  } else if (mode === "unique") {
-    uniqueButtonEl.classList.remove("unique-button-inactive");
-    uniqueButtonEl.classList.add("unique-button-active");
+  } else if (mode === "grayscale") {
+    grayscaleButtonEl.classList.remove("grayscale-button-inactive");
+    grayscaleButtonEl.classList.add("grayscale-button-active");
     rainbowButtonEl.classList.remove("rainbow-button-active");
     eraserButtonEl.classList.remove("eraser-button-active");
     rainbowButtonEl.disabled = false;
-    uniqueButtonEl.disabled = true;
+    grayscaleButtonEl.disabled = true;
     eraserButtonEl.disabled = false;
   } else if (mode === "eraser") {
     eraserButtonEl.classList.remove("eraser-button-inactive");
     eraserButtonEl.classList.add("eraser-button-active");
     rainbowButtonEl.classList.remove("rainbow-button-active");
-    uniqueButtonEl.classList.remove("unique-button-active");
+    grayscaleButtonEl.classList.remove("grayscale-button-active");
     rainbowButtonEl.disabled = false;
-    uniqueButtonEl.disabled = false;
+    grayscaleButtonEl.disabled = false;
     eraserButtonEl.disabled = true;
   }
 }
