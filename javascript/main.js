@@ -7,8 +7,9 @@ let size = DEFAULT_SIZE;
 let color = DEFAULT_COLOR;
 let mode = DEFAULT_MODE;
 
-// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+let isMouseDown = false;
 
+// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
 
 function hsvToRgb(h, s, v) {
   let r, g, b;
@@ -78,13 +79,17 @@ function setSize(updatedSize) {
 
 function setMode(updatedMode) {
   mode = updatedMode;
-  applyColoring();
+  showActiveButton(mode);
 }
 
-function resetOpacity() {
+function resetAllOpacity() {
   document.querySelectorAll(".grid-square").forEach((item) => {
-    item.style.opacity = null;
+    resetOpacity(item);
   });
+}
+
+function resetOpacity(item) {
+  item.style.opacity = null;
 }
 
 uniqueButtonEl.addEventListener("click", () => setMode("unique"));
@@ -93,8 +98,8 @@ rainbowButtonEl.addEventListener("click", () => setMode("rainbow"));
 
 eraserButtonEl.addEventListener("click", () => setMode("eraser"));
 
-sizeSliderEl.addEventListener("change", (el) => {
-  changeSize(el.target.value);
+sizeSliderEl.addEventListener("change", (e) => {
+  changeSize(e.target.value);
 });
 
 clearButtonEl.addEventListener("click", () => {
@@ -110,7 +115,6 @@ function changeSize(value) {
 
 function loadGrid() {
   containerEl.innerHTML = "";
-  resetOpacity();
   for (let i = 1; i <= size; i++) {
     const newColumnDiv = document.createElement("div");
     let columnId = "column" + i;
@@ -130,29 +134,60 @@ function loadGrid() {
 
 loadGrid();
 
-
 function applyColoring() {
-  showActiveButton(mode);
   const numColors = document.querySelectorAll(".grid-square").length;
   const colors = generateRandomColors(numColors);
   document.querySelectorAll(".grid-square").forEach((item, index) => {
-    item.addEventListener("mouseover", () => {
-      if (mode === "unique") {
-        item.style.backgroundColor = DEFAULT_COLOR;
-      } else if (mode === "rainbow") {
-        const [r, g, b] = colors[index];
-        item.style.backgroundColor = rgbToHex(r, g, b);
-      } else if (mode === "eraser") {
-        item.style.backgroundColor = NEUTRAL_COLOR;
+    item.addEventListener("mousedown", () => {
+      isMouseDown = true;
+      colorSquare(item, index, colors);
+    });
+    item.addEventListener("mouseup", () => {
+      isMouseDown = false;
+    });
+    item.addEventListener("mousemove", () => {
+      if (isMouseDown) {
+        colorSquare(item, index, colors);
       }
-      let currentOpacity = parseFloat(item.style.opacity) || 0;
-      currentOpacity += 0.1;
-      if (currentOpacity > 1) {
-        currentOpacity = 1;
-      }
-      item.style.opacity = currentOpacity;
+    });
+    item.addEventListener("dragstart", (e) => {
+      e.preventDefault();
+    });
+    item.addEventListener("drop", (e) => {
+      e.preventDefault();
     });
   });
+  document.body.addEventListener("mouseup", () => {
+    isMouseDown = false;
+  });
+}
+
+function colorSquare(item, index, colors) {
+  if (mode === "unique") {
+    item.style.backgroundColor = DEFAULT_COLOR;
+    applyOpacity(item);
+  }
+  if (mode === "rainbow") {
+    const [r, g, b] = colors[index];
+    item.style.backgroundColor = rgbToHex(r, g, b);
+    applyOpacity(item);
+  }
+  if (mode === "eraser") {
+    resetOpacity(item);
+    item.style.backgroundColor = NEUTRAL_COLOR;
+  }
+}
+function applyOpacity(item) {
+  let currentOpacity = parseFloat(item.style.opacity) || 0;
+  console.log(currentOpacity);
+  currentOpacity += 0.1;
+  console.log(currentOpacity);
+  if (currentOpacity > 1) {
+    currentOpacity = 1;
+  }
+  console.log(currentOpacity);
+  item.style.opacity = currentOpacity;
+  console.log(item.style.opacity);
 }
 
 function showActiveButton(mode) {
@@ -180,5 +215,5 @@ function showActiveButton(mode) {
     rainbowButtonEl.disabled = false;
     uniqueButtonEl.disabled = false;
     eraserButtonEl.disabled = true;
-}
+  }
 }
