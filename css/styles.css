@@ -86,13 +86,13 @@ button:disabled:hover {
   background-color: initial;
 }
 
-.unique-button-active {
+.grayscale-button-active {
   background-color: #575757;
   color: #ffffff;
   font-weight: bold;
 }
 
-button.unique:disabled {
+button.grayscale:disabled {
   background-color: #575757;
 }
 

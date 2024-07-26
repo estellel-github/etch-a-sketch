@@ -9,6 +9,8 @@ let mode = DEFAULT_MODE;
 
 let isMouseDown = false;
 
+// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+
 function hsvToRgb(h, s, v) {
   let r, g, b;
   let i = Math.floor(h * 6);
