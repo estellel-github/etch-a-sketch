@@ -99,6 +99,7 @@ button.eraser:disabled {
   display: grid;
   width: 100%;
   max-width: 500px;
+  min-width: 500px;
   border: solid 1px #c5c5c5;
 }
 
