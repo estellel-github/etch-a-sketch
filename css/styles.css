@@ -97,10 +97,9 @@ button.eraser:disabled {
 
 #grid {
   display: grid;
-  height: 100%;
   width: 100%;
   max-width: 500px;
-  min-width: 500px;
+  max-height: 500px;
   border: solid 1px #c5c5c5;
 }
 
