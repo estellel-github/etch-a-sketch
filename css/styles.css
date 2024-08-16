@@ -54,10 +54,7 @@ h1 {
   cursor: pointer;
   border: solid 1px #c5c5c5;
   font-size: 1rem;
-}
-
-a, a:visited, a:hover {
-  color:#575757;
+  color:#575757; /* Set explicit color due to apple system blue on buttons https://forums.developer.apple.com/forums/thread/690529 */
 }
 
 button:hover {
