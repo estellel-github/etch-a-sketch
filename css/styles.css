@@ -1,6 +1,5 @@
-*,
-*::before,
-*::after {
+/* Resets and general */
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -13,25 +12,21 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-sizing: border-box;
   display: flex;
-  gap: 16px;
+  gap: 1rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 32px;
   height: 100%;
+  padding: 3rem;
 }
 
-#grid {
-  display: grid;
-  gap: 0;
-  width: 100%;
-  max-width: 500px;
-  height: 100%;
-  max-height: 500px;
-  border: solid 1px #c5c5c5;
+h1 {
+  margin: 0;
+  color: #585858;
 }
+
+/* Input containers */
 
 #mode-input-container {
   display: flex;
@@ -39,49 +34,22 @@ body {
   align-items: center;
 }
 
-#mode-input-container button {
-  flex: 1;
-}
-
 #size-input-container {
   display: flex;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 1rem;
 }
 
-.grid-square {
-  width: 100%;
-  height: 0;
-  padding-top: 100%;
-  position: relative;
-  border: none;
-}
-
-.grid-square::after {
-  content: "";
-  display: block;
-  padding-top: 100%;
-  border: none;
-}
-
-.grid-square > * {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+/* Buttons */
 
 .button {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  margin: 5px;
-  height: 35px;
+  padding: 0.5rem;
+  margin: 0.3rem;
   min-width: 120px;
   border: solid 1px;
-  background-color: #f0f0f0;
   cursor: pointer;
   border: solid 1px #c5c5c5;
 }
@@ -93,10 +61,6 @@ button:hover {
 button:disabled {
   cursor: not-allowed;
   opacity: 60%;
-}
-
-button:disabled:hover {
-  background-color: initial;
 }
 
 .grayscale-button-active {
@@ -129,7 +93,24 @@ button.eraser:disabled {
   background-color: #00b7ff;
 }
 
-/* FOOTER */
+/* Grid */
+
+#grid {
+  display: grid;
+  width: 100%;
+  max-width: 500px;
+  border: solid 1px #c5c5c5;
+}
+
+.grid-square {
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  position: relative;
+  border: none;
+}
+
+/* Footer */
 
 .footer {
   color: #585858;
@@ -139,19 +120,4 @@ button.eraser:disabled {
   align-items: center;
   justify-content: center;
   gap: 42px;
-}
-
-.footer-removed {
-  display:none;
-}
-
-h1 {
-  margin: 0;
-  color: #585858;
-}
-
-.unicorn-square {
-  font-size: 2em;
-  text-align: center;
-  visibility: hidden;
 }

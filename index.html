@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Etch-A-Sketch</title>
+  <title>🦄 Etch-A-Sketch 🐁</title>
+  <script defer src="javascript/colors.js"></script>
   <script defer src="javascript/main.js"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -14,14 +15,14 @@
     <h1>Etch-A-Sketch</h1>
   </div>
   <div id="mode-input-container">
-
-    <button id="grayscale-button" class="button grayscale">🐁 Grayscale</button>
-    <button id="rainbow-button" class="button rainbow">🦄 Rainbow</button>
-
-    <button id="eraser-button" class="button eraser">🧽 Eraser</button>
-
-    <button id="clear-button" class="button clear">Clear</button>
-    
+    <div id="buttons-left">
+      <button id="grayscale-button" class="button grayscale">🐁 Grayscale</button>
+      <button id="rainbow-button" class="button rainbow">🦄 Rainbow</button>
+    </div>
+    <div id="buttons-right">
+      <button id="eraser-button" class="button eraser">🧽 Eraser</button>
+      <button id="clear-button" class="button clear">🗑️ Clear</button>
+    </div>
   </div>
 
   <div id="size-input-container">
