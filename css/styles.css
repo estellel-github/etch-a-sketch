@@ -18,7 +18,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 3rem;
+  margin: 1rem;
 }
 
 h1 {
@@ -97,9 +97,10 @@ button.eraser:disabled {
 
 #grid {
   display: grid;
+  gap: 0;
   width: 100%;
   max-width: 500px;
-  min-width: 500px;
+  max-height: 500px;
   border: solid 1px #c5c5c5;
 }
 
