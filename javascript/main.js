@@ -83,7 +83,6 @@ function applyColoring() {
   const numColors = document.querySelectorAll(".grid-square").length;
   const colors = generateRandomColors(numColors);
   document.querySelectorAll(".grid-square").forEach((item, index) => {
-    // Mouse Events
     item.addEventListener("mousedown", () => {
       isMouseDown = true;
       colorSquare(item, index, colors);
@@ -102,30 +101,28 @@ function applyColoring() {
     item.addEventListener("drop", (e) => {
       e.preventDefault();
     });
-
-    // Touch Events
     item.addEventListener("touchstart", (e) => {
-      e.preventDefault(); // Prevent scrolling when touching the grid
-      isMouseDown = true; // Treat touch as mouse down
+      e.preventDefault();
+      isMouseDown = true;
       colorSquare(item, index, colors);
     });
     item.addEventListener("touchend", () => {
       isMouseDown = false;
     });
     item.addEventListener("touchmove", (e) => {
-      e.preventDefault(); // Prevent scrolling when moving touches
+      e.preventDefault();
       if (isMouseDown) {
-        // Get the touch location and find the corresponding grid square
         let touch = e.touches[0];
         let targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
         if (targetElement && targetElement.classList.contains("grid-square")) {
-          colorSquare(targetElement, index, colors);
+          let newIndex = Array.from(document.querySelectorAll('.grid-square')).indexOf(targetElement);
+          if (newIndex !== -1) {
+            colorSquare(targetElement, newIndex, colors);
+          }
         }
       }
     });
   });
-
-  // Handle mouse up on the entire document to ensure isMouseDown is reset
   document.body.addEventListener("mouseup", () => {
     isMouseDown = false;
   });
