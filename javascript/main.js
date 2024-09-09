@@ -1,3 +1,5 @@
+import { generateRandomColors, rgbToHex } from "./colors.js";
+
 const DEFAULT_SIZE = 16;
 const NEUTRAL_COLOR = "#FFFFFF";
 const DEFAULT_COLOR = "#575757";
