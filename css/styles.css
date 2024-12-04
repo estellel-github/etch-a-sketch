@@ -19,7 +19,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  margin: 1rem;
 }
 
 h1 {
@@ -55,7 +54,8 @@ h1 {
   cursor: pointer;
   border: solid 1px #c5c5c5;
   font-size: 1rem;
-  color:#575757; /* Set explicit color due to apple system blue on buttons https://forums.developer.apple.com/forums/thread/690529 */
+  color: #575757;
+  /* Set explicit color due to apple system blue on buttons https://forums.developer.apple.com/forums/thread/690529 */
 }
 
 button:hover {
@@ -101,9 +101,9 @@ button.eraser:disabled {
 
 #grid {
   display: grid;
-  width: 100%;
-  max-width: 500px;
-  max-height: 500px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 480px;
   border: solid 1px #c5c5c5;
 }
 
