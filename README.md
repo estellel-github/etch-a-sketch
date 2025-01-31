@@ -1,6 +1,6 @@
 # Etch-a-Sketch
 
-A digital Etch-a-Sketch game built with HTML, CSS, and JavaScript.
+A digital Etch-a-Sketch app built with HTML, CSS, and JavaScript.
 This project is part of **The Odin Project** curriculum and serves as a practice for DOM manipulation and responsive layout skills.
 
 ![alt text](image.png)
